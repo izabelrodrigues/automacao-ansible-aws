@@ -1,0 +1,41 @@
+---
+#---------------------------------------------------------
+# 
+# Author: Izabel Rodrigues
+# Playbook Create Users in Groups - AWS
+# Version: 1.0 
+# Creation Date: 11 June 2021
+# Input CSV Example:
+# username,group,temp_pass,tagKey,tagValue
+# adolfo.carlos,DBA,MeMudar123456!,MATRICULA,00002
+# aguinaldo.balsemao,RedesAdmin,MeMudar123456!,MATRICULA,00003
+# 
+#---------------------------------------------------------
+- name: create users in aws
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    my_file: "{{ myfile }}"
+
+  tasks:
+    - name: reading the csv file
+      community.general.read_csv:
+        path:  users.csv
+        delimiter: ","
+      delegate_to: localhost
+      register: user_list
+
+    - name: show users list
+      debug:
+        msg: "{{ item.username }} - {{ item.group }} - {{ item.tagValue }}"
+      loop: "{{ user_list.list }}"
+
+    - name: create users
+      ansible.builtin.script: script-users.sh {{ my_file }}
+      register: out
+
+    - name: debug script
+      debug: var=out.stdout_lines
+
+#---------------------------------------------------------

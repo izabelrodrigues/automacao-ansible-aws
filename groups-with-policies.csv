@@ -1,0 +1,7 @@
+group,policy
+CloudAdmin,arn:aws:iam::aws:policy/AdministratorAccess
+DBA,arn:aws:iam::aws:policy/AmazonRDSFullAccess
+Estagiarios,arn:aws:iam::aws:policy/ReadOnlyAccess
+LinuxAdmin,arn:aws:iam::aws:policy/AmazonEC2FullAccess
+RedesAdmin,arn:aws:iam::aws:policy/AmazonVPCFullAccess
+

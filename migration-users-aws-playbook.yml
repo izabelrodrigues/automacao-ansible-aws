@@ -1,0 +1,12 @@
+#---------------------------------------------------------
+## Author: Izabel Rodrigues
+## Playbook IAM - AWS
+## Version: 1.0
+## Creation Date: 11 June 2021
+##---------------------------------------------------------
+
+- import_playbook: create-enforce-mfa-policy.yml
+
+- import_playbook: create-groups-playbook.yml
+
+- import_playbook: create-users-sh-playbook.yml

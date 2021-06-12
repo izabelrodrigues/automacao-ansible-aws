@@ -1,0 +1,23 @@
+---
+#---------------------------------------------------------
+# 
+# Author: Izabel Rodrigues
+# Playbook Create Policy Force MFA - AWS
+# Version: 1.0 
+# Creation Date: 11 June 2021
+#
+#---------------------------------------------------------
+- name: create managed policy mfa
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+    - name: creating mfa policy
+      community.aws.iam_managed_policy:
+        policy_name: "EnforceMFAPolicy"
+        policy_description: "Desabilita todas as funções a não ser de habilitar o próprio MFA"
+        policy: "{{ lookup('file', 'mfa-enforce-policy.json') }}"
+        state: present
+
+#---------------------------------------------------------

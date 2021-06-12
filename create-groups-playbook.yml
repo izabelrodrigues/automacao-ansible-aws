@@ -1,0 +1,45 @@
+---
+#---------------------------------------------------------
+# 
+# Author: Iabel Rodrigues
+# Playbook Create Group With Policies - AWS
+# Version: 1.0 
+# Creation Date: 11 June 2021
+# Input CSV Example:
+#  group,policy
+#  CloudAdmin,arn:aws:iam::aws:policy/AdministratorAccess
+#
+#---------------------------------------------------------
+- name: create groups in aws
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+    - name: reading the csv file
+      community.general.read_csv:
+        path: groups-with-policies.csv
+        delimiter: ","
+      delegate_to: localhost
+      register: group_list
+
+    - name: show groups list
+      debug:
+        msg: "{{ item.group }} - {{ item.policy }}"
+      loop: "{{ group_list.list }}"
+
+    - name: Get the current caller identity information
+      amazon.aws.aws_caller_info:
+      register: caller_info
+
+    - name: create groups with policies
+      community.aws.iam_group:
+        name: "{{ item.group }}"
+        managed_policies:
+          - "{{ item.policy }}"
+          - "arn:aws:iam::{{caller_info.account}}:policy/EnforceMFAPolicy"
+        state: present
+      loop: "{{ group_list.list }}"
+
+
+#---------------------------------------------------------
