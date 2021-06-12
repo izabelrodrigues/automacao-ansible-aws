@@ -15,7 +15,7 @@ Migrar acesso de funcionários providos em uma planilha que contém nomes, e-mai
 
  ### RESUMO DA SOLUÇÃO
  * Preparação dos dados da planilha excel para geração de um arquivo csv
- * Política de senhas de usuários configurados previamente no console da AWS
+ * Política de senhas de usuários configurada previamente no console da AWS
  * Criação de um usuário com permissão de executar comandos via aws cli
  * Criação de shell script contendo comandos aws cli para criação de usuários 
  * Criação de playbooks parciais para as tarefas 
